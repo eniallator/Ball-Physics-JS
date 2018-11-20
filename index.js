@@ -1,9 +1,11 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
-// ctx.beginPath()
-// ctx.arc(posX + radius / 2, posY, radius, 0, 2 * Math.PI, false)
-// ctx.fill()
+const balls = []
+
+for (let i = 0; i < 5; i++) {
+    balls.push(new Ball(Math.random() * canvas.width, Math.random() * canvas.height, 30 + Math.random() * 50))
+}
 
 function run() {
     // requestAnimationFrame(run)
