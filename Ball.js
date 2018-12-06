@@ -15,6 +15,14 @@ class Ball {
         if (this.pos.y + this.vel.y < this.radius || this.pos.y + this.vel.y > boundary.y - this.radius) this.vel.y *= -1
     }
 
+    checkCollision(otherBall) {
+        if (
+            Math.sqrt(Math.pow(this.pos.x - otherBall.pos.x, 2) + Math.pow(this.pos.y - otherBall.pos.y, 2)) <=
+            this.radius + otherBall.radius
+        )
+            return true
+    }
+
     draw(ctx) {
         ctx.beginPath()
         ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI, false)
