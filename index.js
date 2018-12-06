@@ -1,14 +1,40 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
 
+const boundary = { x: canvas.offsetWidth, y: canvas.offsetHeight }
+const velMult = 5
+const velMin = 2
 const balls = []
 
 for (let i = 0; i < 5; i++) {
-    balls.push(new Ball(Math.random() * canvas.width, Math.random() * canvas.height, 30 + Math.random() * 50))
+    const radius = 30 + Math.random() * 50
+    const vel = {
+        x: velMult * Math.random() - velMult / 2,
+        y: velMult * Math.random() - velMult / 2
+    }
+    balls.push(
+        new Ball(
+            radius + Math.random() * (boundary.x - 2 * radius),
+            radius + Math.random() * (boundary.y - 2 * radius),
+            radius,
+            vel.x + velMin * (vel.x / Math.abs(vel.x)),
+            vel.y + velMin * (vel.y / Math.abs(vel.y))
+        )
+    )
 }
 
 function run() {
-    // requestAnimationFrame(run)
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, boundary.x, boundary.y)
+    ctx.fillStyle = 'black'
+
+    for (let ball of balls) {
+        ball.draw(ctx)
+        ball.collideSides(boundary)
+        ball.updatePos()
+    }
+
+    requestAnimationFrame(run)
 }
 
 run()
