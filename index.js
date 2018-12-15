@@ -44,13 +44,18 @@ function run() {
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, boundary.x, boundary.y)
 
-    for (let i in balls) {
+    for (let i = 0; i < balls.length; i++) {
         const ball = balls[i]
-        if (balls.some((other, j) => Number(i) !== j && ball.checkCollision(other))) ctx.fillStyle = 'red'
+        if (balls.some((other, j) => i !== j && ball.checkCollision(other))) ctx.fillStyle = 'red'
         else ctx.fillStyle = 'black'
 
         ball.draw(ctx)
+        for (let j = i + 1; j < balls.length; j++) {
+            ball.collideBall(balls[j])
+        }
+    }
 
+    for (let ball of balls) {
         ball.collideSides(boundary)
         ball.updatePos()
     }
